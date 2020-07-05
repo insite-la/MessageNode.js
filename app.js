@@ -1,9 +1,9 @@
 const path = require("path");
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
+const authRoutes = require("./routes/auth");
 const feedRoutes = require("./routes/feed");
 
 const app = express();
@@ -53,6 +53,7 @@ app.use((error, req, res, next) => {
 });
 
 app.use("/feed", feedRoutes);
+app.use("/auth", authRoutes);
 
 const MONGODB_URI =
 	"mongodb+srv://Luis:5WAvUJnyunuOLjvZ@cluster0-vmurt.mongodb.net/messages ";
