@@ -29,5 +29,5 @@ router.put(
 	],
 	feedController.editPost
 );
-router.delete("/post/:postId", feedController.deletePost);
+router.delete("/post/:postId", isAuth, feedController.deletePost);
 module.exports = router;
