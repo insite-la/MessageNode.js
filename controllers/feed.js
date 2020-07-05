@@ -25,13 +25,19 @@ exports.createPost = (req, res, next) => {
 		error.statusCode = 422;
 		throw error;
 	}
+	if (!req.file) {
+		const error = new Error("No image provided.");
+		error.statusCode = 422;
+		throw error;
+	}
+	const imageUrl = req.file.path;
 	const title = req.body.title;
 	const content = req.body.content;
 	// Create post in db
 	const post = new Post({
 		title,
 		content,
-		imageUrl: "images/duck.jpeg",
+		imageUrl,
 		creator: { name: "Luis" },
 	});
 	post.save()
@@ -53,7 +59,7 @@ exports.createPost = (req, res, next) => {
 exports.getPost = (req, res, next) => {
 	const postId = req.params.postId;
 	Post.findById(postId)
-		.then(post => {
+		.then((post) => {
 			if (!post) {
 				const err = new Error("Could not find post.");
 				error.statusCode = 404;
