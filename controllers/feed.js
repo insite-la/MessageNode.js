@@ -165,10 +165,15 @@ exports.deletePost = (req, res, next) => {
 			clearImage(post.imageUrl);
 			return Post.findByIdAndRemove(postId);
 		})
-		.then((result) => {
-			console.log(result);
-			res.status(200).json({ message: "Delete post." });
+		.then(() => {
+			return User.findById(req.userId);
 		})
+		.then((user) => {
+			console.log(user);
+			user.posts.pull(postId);
+			return user.save();
+		})
+		.then(() => res.status(200).json({ message: "Delete post." }))
 		.catch((err) => {
 			if (!err.statusCode) {
 				err.statusCode = 500;
