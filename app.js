@@ -65,7 +65,11 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then(() => {
-		app.listen(4000);
-		console.log("connected");
+		const server = app.listen(4000);
+		console.log("connected to mongo db");
+		const io = require("./socket").init(server);
+		io.on("connection", (socket) => {
+			console.log("Client socket connected");
+		});
 	})
 	.catch((err) => console.log(err));
