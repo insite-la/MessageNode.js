@@ -24,4 +24,8 @@ package-lock.json
 =======
 node_modules
 package-lock.json
+<<<<<<< HEAD
 >>>>>>> 62ad44e... initial commit
+=======
+images
+>>>>>>> 34a6e5d... chore(feed): jwt is used and validated
