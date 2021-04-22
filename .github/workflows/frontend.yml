@@ -1,4 +1,3 @@
-#.github/workflows/react_deploy.yml
 name: CD Stage
 on:
   push: 
