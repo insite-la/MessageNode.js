@@ -15,15 +15,17 @@ jobs:
         with:
           node-version: '14'
       - name: Cache node_modules
+        id: cache-node-modules
         uses: actions/cache@v2.0.0
         with:
           path: frontend/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/frontend/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ env.cache-name }}-
             ${{ runner.os }}-node-
             ${{ runner.os }}-
       - name: Install npm dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd frontend && npm install
       - name: ⛏ Building
         run: cd frontend && npm run build --if-present
