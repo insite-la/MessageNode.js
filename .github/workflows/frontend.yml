@@ -6,7 +6,7 @@ on:
       - qa
       - '!master'
 jobs:
-  deploy:
+  deploy-frontend:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -18,11 +18,11 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2.0.0
         with:
-          path: frontend/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.cache-name }}-
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-frontend-${{ env.cache-name }}-
+            ${{ runner.os }}-frontend-
             ${{ runner.os }}-
       - name: Install npm dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -38,5 +38,4 @@ jobs:
             REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
             REMOTE_USER: ${{ secrets.REMOTE_USER }}
             REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-            TARGET: ${{ secrets.REMOTE_TARGET }}
-            EXCLUDE: "/node_modules/"
+            TARGET: ${{ secrets.REMOTE_TARGET_FRONTEND }}
